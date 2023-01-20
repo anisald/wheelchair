@@ -1,0 +1,20 @@
+clear,clc
+s=tf('s');
+num=291;
+den=4*[2500,0,20023];
+disp('theta/torce...')
+sys1=tf(num,den) % theta/Torce
+
+T=2;
+a=0.1;
+sys_c=tf([T,1],[a*T,1]);
+H=series(sys1,sys_c);
+G=feedback(H,[1]);
+
+disp('phi/Torce...')
+sys2=(-31.01639+36.3779*s^2/(7.4440))*sys1 %phi/Torce
+t=0:0.01:6;
+ subplot(2,2,1),impulse(sys1,t)
+subplot(2,2,2),impulse(sys2,t)
+subplot(2,2,3), rlocus(sys1);
+subplot(2,2,4),rlocus(G)
